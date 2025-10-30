@@ -2,12 +2,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MFS - Modern Movie Streaming</title>
+    <title>MFS - Premium Movie Streaming</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Modern Movie Website - Complete Professional CSS */
-        
         :root {
-            /* Modern Dark Theme */
             --primary-accent: #8b5cf6;
             --primary-light: #a78bfa;
             --primary-dark: #7c3aed;
@@ -25,7 +25,6 @@
         }
 
         [data-theme="light"] {
-            /* Light Theme */
             --primary-accent: #7c3aed;
             --primary-light: #8b5cf6;
             --primary-dark: #6d28d9;
@@ -49,14 +48,17 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
-            line-height: 1.5;
+            line-height: 1.65;
             overflow-x: hidden;
+            letter-spacing: -0.015em;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Navbar */
         .navbar {
             position: fixed;
             top: 0;
@@ -83,24 +85,17 @@
             50% { transform: translateY(-3px); }
         }
 
-        @keyframes logoGlow {
-            0%, 100% { box-shadow: 0 0 10px rgba(139, 92, 246, 0.3); }
-            50% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.6); }
-        }
-
         .navbar-logo img {
             height: 45px;
             width: 45px;
             border-radius: 8px;
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease;
             animation: logoFloat 3s ease-in-out infinite;
-            box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
         }
 
         .navbar-logo img:hover {
             transform: scale(1.1) rotate(5deg);
-            animation: logoGlow 1s ease-in-out infinite;
         }
 
         .nav-links {
@@ -117,8 +112,7 @@
             transition: color 0.2s;
         }
 
-        .nav-links a:hover,
-        .nav-links a.active {
+        .nav-links a:hover {
             color: var(--primary-accent);
         }
 
@@ -129,6 +123,7 @@
             background: var(--bg-secondary);
             color: var(--text-primary);
             font-size: 14px;
+            font-family: 'Inter', sans-serif;
             outline: none;
             transition: all 0.2s;
             min-width: 200px;
@@ -158,11 +153,6 @@
             transform: rotate(20deg) scale(1.1);
         }
 
-        .theme-icon {
-            font-size: 18px;
-        }
-
-        /* Banner */
         .banner {
             position: relative;
             height: 85vh;
@@ -178,27 +168,32 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(77deg, rgba(0,0,0,0.8) 0%, transparent 85%);
+            background: linear-gradient(77deg, rgba(0,0,0,0.85) 0%, transparent 85%);
         }
 
         .banner-content {
             position: relative;
             z-index: 2;
-            max-width: 550px;
+            max-width: 600px;
         }
 
         .banner h1 {
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            line-height: 1.1;
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
         }
 
         .banner p {
-            font-size: 18px;
+            font-size: 19px;
             color: var(--text-secondary);
-            margin-bottom: 24px;
-            line-height: 1.4;
+            margin-bottom: 28px;
+            line-height: 1.7;
+            font-weight: 400;
+            max-width: 580px;
+            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
         }
 
         .banner-buttons {
@@ -206,43 +201,18 @@
             gap: 12px;
         }
 
-        @keyframes buttonPulse {
-            0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
-        }
-
         .btn {
-            padding: 12px 32px;
+            padding: 14px 36px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 16px;
             font-weight: 600;
+            font-family: 'Inter', sans-serif;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .btn:hover::before {
-            width: 300px;
-            height: 300px;
+            gap: 10px;
         }
 
         .btn-primary {
@@ -254,7 +224,6 @@
             background: var(--primary-light);
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
-            animation: buttonPulse 1.5s infinite;
         }
 
         .btn-secondary {
@@ -267,7 +236,6 @@
             background: var(--hover-bg);
         }
 
-        /* Genre Bar */
         .genre-bar {
             display: flex;
             gap: 12px;
@@ -287,6 +255,8 @@
             background: var(--bg-secondary);
             color: var(--text-primary);
             font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
             cursor: pointer;
             white-space: nowrap;
             transition: all 0.2s;
@@ -297,23 +267,23 @@
             background: var(--primary-accent);
             color: #ffffff;
             border-color: var(--primary-accent);
-            box-shadow: var(--shadow-sm);
         }
 
-        /* Movie Rows */
         .row {
             padding: 32px 4% 0;
         }
 
         .row h2 {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 16px;
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
         }
 
         .list {
             display: flex;
-            gap: 8px;
+            gap: 12px;
             overflow-x: auto;
             padding: 8px 0;
             scrollbar-width: thin;
@@ -333,17 +303,6 @@
             border-radius: 4px;
         }
 
-        @keyframes cardSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .movie-card {
             position: relative;
             min-width: 200px;
@@ -351,27 +310,22 @@
             cursor: pointer;
             border-radius: 8px;
             overflow: hidden;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                        box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                        z-index 0s 0.4s;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s;
             box-shadow: var(--shadow-sm);
-            animation: cardSlideIn 0.5s ease-out backwards;
+            will-change: transform, box-shadow;
         }
 
         .movie-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.4s;
         }
 
         .movie-card:hover {
-            transform: scale(1.1) translateY(-8px);
-            box-shadow: 0 16px 32px rgba(139, 92, 246, 0.4), var(--shadow-md);
+            transform: scale(1.08) translateY(-8px);
+            box-shadow: 0 16px 32px rgba(139, 92, 246, 0.4);
             z-index: 10;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                        box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                        z-index 0s;
         }
 
         .movie-card:hover img {
@@ -384,7 +338,7 @@
             left: 0;
             right: 0;
             padding: 16px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            background: linear-gradient(transparent, rgba(0,0,0,0.95));
             opacity: 0;
             transition: opacity 0.3s;
         }
@@ -404,16 +358,9 @@
             color: #46d369;
         }
 
-        /* Modal */
         @keyframes modalFadeIn {
-            from {
-                opacity: 0;
-                backdrop-filter: blur(0px);
-            }
-            to {
-                opacity: 1;
-                backdrop-filter: blur(8px);
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         @keyframes modalSlideUp {
@@ -431,8 +378,8 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
             z-index: 2000;
             align-items: center;
             justify-content: center;
@@ -450,11 +397,10 @@
         .modal-content {
             background: var(--bg-secondary);
             width: 90%;
-            max-width: 900px;
+            max-width: 1100px;
             max-height: 90vh;
             border-radius: 12px;
             overflow: hidden;
-            position: relative;
             box-shadow: 0 20px 60px rgba(139, 92, 246, 0.3);
         }
 
@@ -479,9 +425,9 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.9);
             border: none;
-            color: var(--text-primary);
+            color: #fff;
             font-size: 24px;
             cursor: pointer;
             display: flex;
@@ -515,9 +461,10 @@
         }
 
         .modal-title {
-            font-size: 28px;
-            font-weight: 700;
+            font-size: 32px;
+            font-weight: 800;
             margin-bottom: 12px;
+            letter-spacing: -0.02em;
         }
 
         .modal-meta {
@@ -531,12 +478,12 @@
 
         .modal-description {
             font-size: 16px;
-            line-height: 1.6;
+            line-height: 1.7;
             color: var(--text-secondary);
             margin-bottom: 20px;
+            font-weight: 400;
         }
 
-        /* Tabs */
         .modal-tabs {
             display: flex;
             gap: 24px;
@@ -551,6 +498,7 @@
             color: var(--text-muted);
             font-size: 16px;
             font-weight: 600;
+            font-family: 'Inter', sans-serif;
             cursor: pointer;
             position: relative;
         }
@@ -578,7 +526,6 @@
             display: block;
         }
 
-        /* Server Selector */
         .server-selector {
             display: flex;
             gap: 8px;
@@ -587,14 +534,16 @@
         }
 
         .server-btn {
-            padding: 8px 16px;
+            padding: 10px 18px;
             background: var(--bg-card);
             border: 1px solid var(--border-subtle);
             border-radius: 6px;
             color: var(--text-primary);
             font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .server-btn:hover {
@@ -606,19 +555,17 @@
             background: var(--primary-accent);
             border-color: var(--primary-accent);
             color: #ffffff;
-            box-shadow: var(--shadow-sm);
         }
 
         .video-player {
             width: 100%;
-            height: 500px;
+            height: 550px;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             margin-bottom: 20px;
             background: var(--bg-card);
         }
 
-        /* Cast Section */
         .cast-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -633,7 +580,7 @@
             width: 100%;
             height: 120px;
             object-fit: cover;
-            border-radius: 4px;
+            border-radius: 6px;
             margin-bottom: 8px;
         }
 
@@ -647,7 +594,6 @@
             color: var(--text-muted);
         }
 
-        /* Download Links */
         .download-link {
             display: flex;
             align-items: center;
@@ -688,6 +634,7 @@
         .download-details h4 {
             margin: 0;
             font-size: 16px;
+            font-weight: 600;
         }
 
         .download-details p {
@@ -696,12 +643,6 @@
             color: var(--text-muted);
         }
 
-        .download-arrow {
-            font-size: 20px;
-            color: var(--primary-accent);
-        }
-
-        /* Footer */
         .footer {
             padding: 48px 4%;
             margin-top: 80px;
@@ -737,88 +678,77 @@
             border-top: 1px solid var(--border-subtle);
         }
 
-        /* Loading */
         .loading {
             padding: 40px;
             text-align: center;
             color: var(--text-muted);
         }
 
-        /* Info Modal */
-        .info-modal h2 { 
-            font-size: 28px; 
-            margin-bottom: 20px; 
-            color: var(--primary-accent); 
+        .info-modal h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary-accent);
         }
 
-        .info-modal h3 { 
-            font-size: 20px; 
-            margin-top: 24px; 
-            margin-bottom: 12px; 
+        .info-modal h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 12px;
         }
 
-        .info-modal p { 
-            margin-bottom: 12px; 
-            color: var(--text-secondary); 
-            line-height: 1.6;
+        .info-modal p {
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+            line-height: 1.7;
         }
 
-        .info-modal ul { 
-            margin-left: 20px; 
-            margin-bottom: 16px; 
+        .info-modal ul {
+            margin-left: 20px;
+            margin-bottom: 16px;
         }
 
-        .info-modal li { 
-            margin-bottom: 8px; 
-            color: var(--text-secondary); 
+        .info-modal li {
+            margin-bottom: 8px;
+            color: var(--text-secondary);
         }
 
-        .info-modal strong { 
-            color: var(--text-primary); 
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            .banner h1 { font-size: 32px; }
+            .banner h1 { font-size: 36px; }
             .nav-links { gap: 16px; }
-            .nav-links a { font-size: 13px; }
             .movie-card { min-width: 150px; height: 225px; }
             .modal-header { height: 250px; }
             .video-player { height: 300px; }
-            .genre-bar { padding: 16px 4%; }
         }
 
         @media (max-width: 480px) {
             .navbar { padding: 12px 4%; }
             .navbar-logo img { height: 36px; width: 36px; }
             .banner { height: 70vh; }
-            .banner h1 { font-size: 24px; }
-            .banner p { font-size: 14px; }
-            .btn { padding: 10px 24px; font-size: 14px; }
+            .banner h1 { font-size: 28px; }
+            .btn { padding: 12px 28px; font-size: 14px; }
             .movie-card { min-width: 130px; height: 195px; }
-            .row h2 { font-size: 20px; }
             .search-bar { min-width: 150px; }
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
     <nav class="navbar">
         <div class="navbar-logo">
             <img src="logo.jpg" alt="MFS Logo">
         </div>
         <div class="nav-links">
-            <a href="#" class="active">Home</a>
+            <a href="#">Home</a>
             <a href="#">Movies</a>
             <a href="#">TV Shows</a>
-            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">
+            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
                 <span class="theme-icon">☀️</span>
             </button>
             <input type="text" class="search-bar" id="searchInput" placeholder="Search movies...">
         </div>
     </nav>
 
-    <!-- Banner -->
     <div class="banner" id="banner">
         <div class="banner-content">
             <h1 id="bannerTitle">Loading...</h1>
@@ -830,12 +760,10 @@
         </div>
     </div>
 
-    <!-- Genre Filter -->
     <div class="genre-bar" id="genreBar">
         <button class="genre-btn active" data-genre="">All</button>
     </div>
 
-    <!-- Movie Rows -->
     <div class="row">
         <h2>Trending Now</h2>
         <div class="list" id="trending"></div>
@@ -861,7 +789,6 @@
         <div class="list" id="upcoming"></div>
     </div>
 
-    <!-- Movie Modal -->
     <div class="modal" id="movieModal">
         <div class="modal-content">
             <button class="close" onclick="closeModal()">&times;</button>
@@ -871,13 +798,18 @@
                 <div class="modal-meta" id="modalMeta"></div>
                 
                 <div class="modal-tabs">
-                    <button class="tab active" onclick="showTab('player')">Player</button>
+                    <button class="tab active" onclick="showTab('trailer')">Trailer</button>
+                    <button class="tab" onclick="showTab('player')">Watch Now</button>
                     <button class="tab" onclick="showTab('details')">Details</button>
                     <button class="tab" onclick="showTab('cast')">Cast</button>
                     <button class="tab" onclick="showTab('download')">Download</button>
                 </div>
 
-                <div id="playerTab" class="tab-content active">
+                <div id="trailerTab" class="tab-content active">
+                    <iframe id="trailerPlayer" class="video-player" allowfullscreen></iframe>
+                </div>
+
+                <div id="playerTab" class="tab-content">
                     <div class="server-selector" id="serverSelector"></div>
                     <iframe id="videoPlayer" class="video-player" allowfullscreen allow="autoplay"></iframe>
                 </div>
@@ -892,15 +824,14 @@
                 </div>
 
                 <div id="downloadTab" class="tab-content">
-                    <h3 style="margin-bottom: 16px;">Download Options</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 20px;">Choose a download server below. Click to open the download page in a new tab.</p>
+                    <h3 style="margin-bottom: 16px; font-weight: 700;">Download Options</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">Choose a download server below. Click to open in a new tab.</p>
                     <div id="downloadLinks"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Info Modal -->
     <div class="modal" id="infoModal">
         <div class="modal-content">
             <button class="close" onclick="closeInfoModal()">&times;</button>
@@ -908,7 +839,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="footer-links">
             <a onclick="showDisclaimer()">Disclaimer</a>
@@ -921,28 +851,22 @@
     </footer>
 
     <script>
-        // API Configuration
         const API_KEY = 'f27081ffd1178848ff5106836b2adc93';
         const BASE_URL = 'https://api.themoviedb.org/3';
         const IMG_URL = 'https://image.tmdb.org/t/p/w500';
         const IMG_URL_ORIGINAL = 'https://image.tmdb.org/t/p/original';
 
-        // Server providers
         const servers = [
-            { name: 'VidSrc', url: (id) => `https://vidsrc.to/embed/movie/${id}` },
-            { name: 'VidSrc 2', url: (id) => `https://vidsrc.cc/v2/embed/movie/${id}` },
-            { name: '2Embed', url: (id) => `https://www.2embed.cc/embed/${id}` },
-            { name: 'SuperEmbed', url: (id) => `https://www.superembed.stream/embed/movie?tmdb=${id}` },
-            { name: 'AutoEmbed', url: (id) => `https://autoembed.cc/embed/movie/${id}` },
-            { name: 'EmbedSu', url: (id) => `https://embed.su/embed/movie/${id}` },
-            { name: 'SmashyStream', url: (id) => `https://embed.smashystream.com/playere.php?tmdb=${id}` },
-            { name: 'MoviesAPI', url: (id) => `https://moviesapi.club/movie/${id}` }
+            { name: 'VidSrc.to', url: (id) => `https://vidsrc.to/embed/movie/${id}`, priority: 1 },
+            { name: 'VidSrc.cc', url: (id) => `https://vidsrc.cc/v2/embed/movie/${id}`, priority: 2 },
+            { name: 'Embed.su', url: (id) => `https://embed.su/embed/movie/${id}`, priority: 3 },
+            { name: 'P-Stream', url: (id) => `https://embed.pstream.org/movies/${id}`, priority: 4 }
         ];
 
         let currentMovie = null;
         let genres = [];
+        const movieCache = {};
 
-        // Fetch genres
         async function fetchGenres() {
             const res = await fetch(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}`);
             const data = await res.json();
@@ -950,7 +874,6 @@
             renderGenres();
         }
 
-        // Render genre buttons
         function renderGenres() {
             const genreBar = document.getElementById('genreBar');
             genres.forEach(genre => {
@@ -963,7 +886,6 @@
             });
         }
 
-        // Filter by genre
         function filterByGenre(genreId, btn) {
             document.querySelectorAll('.genre-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
@@ -974,7 +896,6 @@
             }
         }
 
-        // Fetch movies by genre
         async function fetchMoviesByGenre(genreId) {
             const res = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}`);
             const data = await res.json();
@@ -984,14 +905,9 @@
             });
         }
 
-        // Cache for API responses
-        const movieCache = {};
-
-        // Fetch movies with caching
         async function fetchMovies(endpoint, elementId) {
             const cacheKey = `${endpoint}_${elementId}`;
             
-            // Check cache first (5 min expiry)
             if (movieCache[cacheKey] && Date.now() - movieCache[cacheKey].timestamp < 300000) {
                 movieCache[cacheKey].data.forEach(movie => {
                     displayMovie(movie, elementId);
@@ -1005,7 +921,6 @@
             const res = await fetch(`${BASE_URL}/movie/${endpoint}?api_key=${API_KEY}&page=1`);
             const data = await res.json();
             
-            // Cache the results
             movieCache[cacheKey] = {
                 data: data.results,
                 timestamp: Date.now()
@@ -1015,13 +930,11 @@
                 displayMovie(movie, elementId);
             });
 
-            // Set banner with first popular movie
             if (endpoint === 'popular' && data.results.length > 0) {
                 setBanner(data.results[0]);
             }
         }
 
-        // Set banner
         function setBanner(movie) {
             const banner = document.getElementById('banner');
             banner.style.backgroundImage = `url(${IMG_URL_ORIGINAL}${movie.backdrop_path})`;
@@ -1030,7 +943,6 @@
             document.getElementById('bannerPlayBtn').onclick = () => openModal(movie);
         }
 
-        // Display movie card with Intersection Observer for lazy loading
         function displayMovie(movie, elementId) {
             if (!movie.poster_path) return;
             
@@ -1046,12 +958,10 @@
             movieCard.onclick = () => openModal(movie);
             document.getElementById(elementId).appendChild(movieCard);
             
-            // Lazy load image
             const img = movieCard.querySelector('img');
             imageObserver.observe(img);
         }
 
-        // Intersection Observer for lazy loading
         const imageObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1063,17 +973,14 @@
             });
         }, { rootMargin: '50px' });
 
-        // Open modal
         async function openModal(movie) {
             currentMovie = movie;
             const modal = document.getElementById('movieModal');
             
-            // Set header background
             document.getElementById('modalHeader').style.backgroundImage = `url(${IMG_URL_ORIGINAL}${movie.backdrop_path})`;
             document.getElementById('modalTitle').textContent = movie.title;
             document.getElementById('modalDescription').textContent = movie.overview;
             
-            // Meta info
             const releaseDate = new Date(movie.release_date).getFullYear();
             const genreNames = movie.genre_ids ? movie.genre_ids.map(id => {
                 const genre = genres.find(g => g.id === id);
@@ -1086,7 +993,6 @@
                 <span>${genreNames}</span>
             `;
 
-            // Fetch full details
             const detailRes = await fetch(`${BASE_URL}/movie/${movie.id}?api_key=${API_KEY}`);
             const details = await detailRes.json();
             
@@ -1097,7 +1003,16 @@
                 <p><strong>Status:</strong> ${details.status}</p>
             `;
 
-            // Fetch cast
+            const videosRes = await fetch(`${BASE_URL}/movie/${movie.id}/videos?api_key=${API_KEY}`);
+            const videosData = await videosRes.json();
+            const trailer = videosData.results.find(v => v.type === 'Trailer' && v.site === 'YouTube');
+            
+            if (trailer) {
+                document.getElementById('trailerPlayer').src = `https://www.youtube.com/embed/${trailer.key}`;
+            } else {
+                document.getElementById('trailerTab').innerHTML = '<p style="padding: 40px; text-align: center; color: var(--text-muted);">No trailer available</p>';
+            }
+
             const castRes = await fetch(`${BASE_URL}/movie/${movie.id}/credits?api_key=${API_KEY}`);
             const castData = await castRes.json();
             const castGrid = document.getElementById('castGrid');
@@ -1114,27 +1029,16 @@
                 }
             });
 
-            // Render servers
             renderServers(movie.id);
-            
-            // Render download links
             renderDownloadLinks(movie.id, movie.title);
             
             modal.classList.add('active');
-            showTab('player');
-            
-            // Auto-play video after modal opens
-            setTimeout(() => {
-                const videoPlayer = document.getElementById('videoPlayer');
-                if (videoPlayer && videoPlayer.src) {
-                    // Trigger play by reloading the iframe
-                    const currentSrc = videoPlayer.src;
-                    videoPlayer.src = currentSrc;
-                }
-            }, 500);
+            showTab('trailer');
         }
 
-        // Render server buttons
+        let currentServerIndex = 0;
+        let serverLoadAttempts = {};
+
         function renderServers(movieId) {
             const selector = document.getElementById('serverSelector');
             selector.innerHTML = '';
@@ -1142,43 +1046,102 @@
                 const btn = document.createElement('button');
                 btn.className = `server-btn ${index === 0 ? 'active' : ''}`;
                 btn.textContent = server.name;
-                btn.onclick = () => changeServer(server, btn, movieId);
+                btn.onclick = () => changeServer(server, btn, movieId, index);
                 selector.appendChild(btn);
             });
-            // Load first server
-            document.getElementById('videoPlayer').src = servers[0].url(movieId);
+            currentServerIndex = 0;
+            serverLoadAttempts = {};
+            loadServerWithFallback(movieId, 0);
         }
 
-        // Change server
-        function changeServer(server, btn, movieId) {
+        function loadServerWithFallback(movieId, serverIndex) {
+            if (serverIndex >= servers.length) {
+                document.getElementById('videoPlayer').style.display = 'none';
+                const selector = document.getElementById('serverSelector');
+                selector.innerHTML = '<p style="padding: 20px; text-align: center; color: var(--text-muted);">Unable to load video from any server. Please try again later.</p>';
+                return;
+            }
+
+            const server = servers[serverIndex];
+            const videoPlayer = document.getElementById('videoPlayer');
+            const loadingOverlay = createLoadingOverlay();
+            
+            videoPlayer.parentElement.style.position = 'relative';
+            videoPlayer.parentElement.insertBefore(loadingOverlay, videoPlayer);
+            
+            videoPlayer.src = server.url(movieId);
+            
+            const timeout = setTimeout(() => {
+                console.log(`Server ${server.name} timed out, trying next...`);
+                loadingOverlay.remove();
+                loadServerWithFallback(movieId, serverIndex + 1);
+            }, 8000);
+
+            videoPlayer.onload = () => {
+                clearTimeout(timeout);
+                loadingOverlay.remove();
+                currentServerIndex = serverIndex;
+                updateActiveServerButton(serverIndex);
+                console.log(`Successfully loaded: ${server.name}`);
+            };
+
+            videoPlayer.onerror = () => {
+                clearTimeout(timeout);
+                console.log(`Server ${server.name} failed, trying next...`);
+                loadingOverlay.remove();
+                loadServerWithFallback(movieId, serverIndex + 1);
+            };
+        }
+
+        function createLoadingOverlay() {
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: var(--bg-card);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--text-primary);
+                font-size: 16px;
+                z-index: 10;
+                border-radius: 8px;
+            `;
+            overlay.innerHTML = '<div style="text-align: center;"><div style="font-size: 24px; margin-bottom: 10px;">⏳</div>Finding best server...</div>';
+            return overlay;
+        }
+
+        function updateActiveServerButton(index) {
+            const buttons = document.querySelectorAll('.server-btn');
+            buttons.forEach((btn, i) => {
+                btn.classList.toggle('active', i === index);
+            });
+        }
+
+        function changeServer(server, btn, movieId, index) {
             document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            document.getElementById('videoPlayer').src = server.url(movieId);
+            currentServerIndex = index;
+            
+            const videoPlayer = document.getElementById('videoPlayer');
+            const loadingOverlay = createLoadingOverlay();
+            videoPlayer.parentElement.insertBefore(loadingOverlay, videoPlayer);
+            
+            videoPlayer.src = server.url(movieId);
+            
+            setTimeout(() => {
+                loadingOverlay.remove();
+            }, 2000);
         }
 
-        // Render download links
         function renderDownloadLinks(movieId, movieTitle) {
             const downloadServers = [
-                { 
-                    name: 'Download Server 1', 
-                    url: `https://dl.vidsrc.vip/movie/${movieId}`,
-                    quality: '1080p / 720p / 480p'
-                },
-                { 
-                    name: 'Download Server 2', 
-                    url: `https://api.123moviestv.me/imdb/movie/${movieId}`,
-                    quality: 'Multiple Quality Options'
-                },
-                { 
-                    name: 'Download Server 3', 
-                    url: `https://vadapav.mov/download?type=movie&id=${movieId}`,
-                    quality: 'HD Quality'
-                },
-                { 
-                    name: 'Torrent Download', 
-                    url: `https://yts.mx/browse-movies/${encodeURIComponent(movieTitle)}/all/all/0/latest`,
-                    quality: 'Multiple Quality Options'
-                }
+                { name: 'Download Server 1', url: `https://dl.vidsrc.vip/movie/${movieId}`, quality: '1080p / 720p / 480p' },
+                { name: 'Download Server 2', url: `https://api.123moviestv.me/imdb/movie/${movieId}`, quality: 'Multiple Quality' },
+                { name: 'Torrent Download', url: `https://yts.mx/browse-movies/${encodeURIComponent(movieTitle)}/all/all/0/latest`, quality: 'Torrent Options' }
             ];
 
             const downloadLinks = document.getElementById('downloadLinks');
@@ -1198,24 +1161,23 @@
                             <p>${server.quality}</p>
                         </div>
                     </div>
-                    <div class="download-arrow">→</div>
+                    <div style="font-size: 20px; color: var(--primary-accent);">→</div>
                 `;
                 downloadLinks.appendChild(link);
             });
         }
 
-        // Show tab
         function showTab(tabName) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             
-            // Find and activate the correct tab button
             const tabs = document.querySelectorAll('.tab');
             tabs.forEach((tab, index) => {
-                if ((tabName === 'player' && index === 0) ||
-                    (tabName === 'details' && index === 1) ||
-                    (tabName === 'cast' && index === 2) ||
-                    (tabName === 'download' && index === 3)) {
+                if ((tabName === 'trailer' && index === 0) ||
+                    (tabName === 'player' && index === 1) ||
+                    (tabName === 'details' && index === 2) ||
+                    (tabName === 'cast' && index === 3) ||
+                    (tabName === 'download' && index === 4)) {
                     tab.classList.add('active');
                 }
             });
@@ -1223,13 +1185,12 @@
             document.getElementById(tabName + 'Tab').classList.add('active');
         }
 
-        // Close modal
         function closeModal() {
             document.getElementById('movieModal').classList.remove('active');
             document.getElementById('videoPlayer').src = '';
+            document.getElementById('trailerPlayer').src = '';
         }
 
-        // Debounced search
         let searchTimeout;
         document.getElementById('searchInput').addEventListener('input', async (e) => {
             const query = e.target.value.trim();
@@ -1239,28 +1200,19 @@
                 searchTimeout = setTimeout(async () => {
                     const res = await fetch(`${BASE_URL}/search/movie?api_key=${API_KEY}&query=${query}`);
                     const data = await res.json();
-                    document.getElementById('trending').innerHTML = '<div class="loading">Searching...</div>';
-                    setTimeout(() => {
-                        document.getElementById('trending').innerHTML = '';
-                        if (data.results.length > 0) {
-                            data.results.forEach(movie => {
-                                displayMovie(movie, 'trending');
-                            });
-                        } else {
-                            document.getElementById('trending').innerHTML = '<div class="loading">No results found</div>';
-                        }
-                    }, 300);
+                    document.getElementById('trending').innerHTML = '';
+                    if (data.results.length > 0) {
+                        data.results.forEach(movie => displayMovie(movie, 'trending'));
+                    } else {
+                        document.getElementById('trending').innerHTML = '<div class="loading">No results found</div>';
+                    }
                 }, 500);
             } else if (query.length === 0) {
-                document.getElementById('trending').innerHTML = '<div class="loading">Loading...</div>';
-                setTimeout(() => {
-                    document.getElementById('trending').innerHTML = '';
-                    fetchMovies('popular', 'trending');
-                }, 300);
+                document.getElementById('trending').innerHTML = '';
+                fetchMovies('popular', 'trending');
             }
         });
 
-        // Navbar scroll effect
         window.addEventListener('scroll', () => {
             const navbar = document.querySelector('.navbar');
             if (window.scrollY > 100) {
@@ -1270,36 +1222,22 @@
             }
         });
 
-        // Info modal functions
         function showDisclaimer() {
             const content = `
                 <h2>Disclaimer</h2>
                 <p><strong>Important Notice:</strong> This website does not host or store any video files on our servers.</p>
-                
                 <h3>Content Disclaimer</h3>
-                <p>All content displayed on this website is sourced from third-party providers and APIs. We act solely as a search engine and indexing service, providing links to content hosted on external servers.</p>
-                
+                <p>All content displayed on this website is sourced from third-party providers and APIs. We act solely as a search engine and indexing service.</p>
                 <h3>Copyright Notice</h3>
                 <ul>
                     <li>We do not upload, host, or distribute any copyrighted content</li>
-                    <li>All trademarks, logos, and content belong to their respective owners</li>
+                    <li>All trademarks belong to their respective owners</li>
                     <li>We respect intellectual property rights and DMCA regulations</li>
                 </ul>
-                
                 <h3>DMCA Compliance</h3>
-                <p>If you believe that your copyrighted work has been improperly indexed or linked on our website, please contact us at <strong>rollonrenren@gmail.com</strong> with:</p>
-                <ul>
-                    <li>Description of the copyrighted work</li>
-                    <li>URL of the content in question</li>
-                    <li>Your contact information</li>
-                    <li>A statement of good faith belief</li>
-                </ul>
-                
+                <p>If you believe your copyrighted work has been improperly indexed, contact us at <strong>rollonrenren@gmail.com</strong></p>
                 <h3>Age Restriction</h3>
-                <p>This website is intended for users 18 years and older. By using this site, you confirm that you meet the age requirement.</p>
-                
-                <h3>User Responsibility</h3>
-                <p>Users are responsible for complying with local laws regarding streaming content. We are not liable for how users access or use external content.</p>
+                <p>This website is for users 18 years and older.</p>
             `;
             showInfoModal(content);
         }
@@ -1308,31 +1246,14 @@
             const content = `
                 <h2>About Us</h2>
                 <p><strong>Welcome to MFS - Modern Fact Stories</strong></p>
-                
                 <h3>Our Mission</h3>
-                <p>We provide a modern, user-friendly platform for discovering and exploring movies. Our service aggregates publicly available information from various sources to help users find entertainment content.</p>
-                
+                <p>We provide a modern platform for discovering and exploring movies using clean, minimal advertising.</p>
                 <h3>What We Do</h3>
                 <ul>
-                    <li>Provide movie information and metadata from TMDb API</li>
+                    <li>Provide movie information from TMDb API</li>
                     <li>Index links to third-party streaming providers</li>
-                    <li>Offer a clean, ad-light browsing experience</li>
-                    <li>Help users discover trending and popular content</li>
+                    <li>Offer a clean browsing experience with minimal ads</li>
                 </ul>
-                
-                <h3>Technology</h3>
-                <p>Our platform uses The Movie Database (TMDb) API for movie information and aggregates links from publicly available streaming providers. We do not control, host, or modify any video content.</p>
-                
-                <h3>Commitment to Users</h3>
-                <ul>
-                    <li>Fast, responsive interface</li>
-                    <li>No registration required</li>
-                    <li>Multiple server options for reliability</li>
-                    <li>Regular updates and improvements</li>
-                </ul>
-                
-                <h3>Legal Operation</h3>
-                <p>We operate as a search and indexing service, similar to Google or other search engines. We comply with DMCA takedown requests and respect copyright holders' rights.</p>
             `;
             showInfoModal(content);
         }
@@ -1340,40 +1261,9 @@
         function showContact() {
             const content = `
                 <h2>Contact Us</h2>
-                <p>We're here to help! Please reach out for any inquiries, concerns, or copyright issues.</p>
-                
-                <h3>General Inquiries</h3>
                 <p><strong>Email:</strong> rollonrenren@gmail.com</p>
-                <p>We typically respond within 24-48 hours during business days.</p>
-                
                 <h3>DMCA / Copyright Claims</h3>
-                <p>If you believe your copyrighted content has been improperly indexed, please send a DMCA notice to:</p>
-                <p><strong>Email:</strong> rollonrenren@gmail.com</p>
-                <p><em>Subject Line:</em> DMCA Takedown Request</p>
-                
-                <h3>Include in Your Request</h3>
-                <ul>
-                    <li>Your full name and contact information</li>
-                    <li>Description of the copyrighted work</li>
-                    <li>URL(s) of the content in question</li>
-                    <li>Statement that you are the copyright owner or authorized agent</li>
-                    <li>Good faith statement that use is unauthorized</li>
-                    <li>Statement of accuracy under penalty of perjury</li>
-                    <li>Physical or electronic signature</li>
-                </ul>
-                
-                <h3>Technical Issues</h3>
-                <p>For technical problems, bugs, or suggestions, please email us with:</p>
-                <ul>
-                    <li>Description of the issue</li>
-                    <li>Device and browser information</li>
-                    <li>Screenshots (if applicable)</li>
-                </ul>
-                
-                <h3>Business Inquiries</h3>
-                <p>For partnership or business opportunities, contact us at the email above.</p>
-                
-                <p><em>We are committed to responding promptly and addressing all concerns professionally.</em></p>
+                <p>For copyright issues, email us with full details.</p>
             `;
             showInfoModal(content);
         }
@@ -1387,19 +1277,11 @@
             document.getElementById('infoModal').classList.remove('active');
         }
 
-        // Close modals on outside click
         window.onclick = function(event) {
-            const movieModal = document.getElementById('movieModal');
-            const infoModal = document.getElementById('infoModal');
-            if (event.target === movieModal) {
-                closeModal();
-            }
-            if (event.target === infoModal) {
-                closeInfoModal();
-            }
+            if (event.target === document.getElementById('movieModal')) closeModal();
+            if (event.target === document.getElementById('infoModal')) closeInfoModal();
         }
 
-        // Load movies
         function loadMovies() {
             fetchMovies('popular', 'trending');
             fetchMovies('popular', 'popular');
@@ -1408,7 +1290,12 @@
             fetchMovies('upcoming', 'upcoming');
         }
 
-        // Theme toggle
+        setInterval(() => {
+            console.log('Refreshing movie data...');
+            Object.keys(movieCache).forEach(key => delete movieCache[key]);
+            loadMovies();
+        }, 3600000);
+
         function toggleTheme() {
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme');
@@ -1417,23 +1304,8 @@
             
             html.setAttribute('data-theme', newTheme);
             icon.textContent = newTheme === 'light' ? '🌙' : '☀️';
-            
-            // Simple animation
-            const toggle = document.getElementById('themeToggle');
-            toggle.style.transform = 'rotate(360deg) scale(1.2)';
-            setTimeout(() => {
-                toggle.style.transform = '';
-            }, 300);
         }
 
-        // Check for saved theme preference or default to dark
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            document.querySelector('.theme-icon').textContent = savedTheme === 'light' ? '🌙' : '☀️';
-        }
-
-        // Initialize
         fetchGenres();
         loadMovies();
     </script>
