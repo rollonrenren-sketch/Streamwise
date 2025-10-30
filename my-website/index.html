@@ -752,6 +752,16 @@
         <div class="list" id="topRated"></div>
     </div>
 
+    <div class="row">
+        <h2>Now Playing</h2>
+        <div class="list" id="nowPlaying"></div>
+    </div>
+
+    <div class="row">
+        <h2>Upcoming</h2>
+        <div class="list" id="upcoming"></div>
+    </div>
+
     <!-- Movie Modal -->
     <div class="modal" id="movieModal">
         <div class="modal-content">
@@ -868,15 +878,38 @@
             });
         }
 
-        // Fetch movies
+        // Cache for API responses
+        const movieCache = {};
+
+        // Fetch movies with caching
         async function fetchMovies(endpoint, elementId) {
-            const res = await fetch(`${BASE_URL}/movie/${endpoint}?api_key=${API_KEY}`);
+            const cacheKey = `${endpoint}_${elementId}`;
+            
+            // Check cache first (5 min expiry)
+            if (movieCache[cacheKey] && Date.now() - movieCache[cacheKey].timestamp < 300000) {
+                movieCache[cacheKey].data.forEach(movie => {
+                    displayMovie(movie, elementId);
+                });
+                if (endpoint === 'popular' && movieCache[cacheKey].data.length > 0) {
+                    setBanner(movieCache[cacheKey].data[0]);
+                }
+                return;
+            }
+
+            const res = await fetch(`${BASE_URL}/movie/${endpoint}?api_key=${API_KEY}&page=1`);
             const data = await res.json();
+            
+            // Cache the results
+            movieCache[cacheKey] = {
+                data: data.results,
+                timestamp: Date.now()
+            };
+            
             data.results.forEach(movie => {
                 displayMovie(movie, elementId);
             });
 
-            // Set banner with first trending movie
+            // Set banner with first popular movie
             if (endpoint === 'popular' && data.results.length > 0) {
                 setBanner(data.results[0]);
             }
@@ -891,14 +924,14 @@
             document.getElementById('bannerPlayBtn').onclick = () => openModal(movie);
         }
 
-        // Display movie card
+        // Display movie card with Intersection Observer for lazy loading
         function displayMovie(movie, elementId) {
             if (!movie.poster_path) return;
             
             const movieCard = document.createElement('div');
             movieCard.className = 'movie-card';
             movieCard.innerHTML = `
-                <img src="${IMG_URL}${movie.poster_path}" alt="${movie.title}" loading="lazy">
+                <img data-src="${IMG_URL}${movie.poster_path}" alt="${movie.title}" class="lazy-img" style="background: var(--bg-card);">
                 <div class="movie-info">
                     <div class="movie-title">${movie.title}</div>
                     <div class="movie-rating">⭐ ${movie.vote_average.toFixed(1)}</div>
@@ -906,7 +939,23 @@
             `;
             movieCard.onclick = () => openModal(movie);
             document.getElementById(elementId).appendChild(movieCard);
+            
+            // Lazy load image
+            const img = movieCard.querySelector('img');
+            imageObserver.observe(img);
         }
+
+        // Intersection Observer for lazy loading
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.classList.remove('lazy-img');
+                    observer.unobserve(img);
+                }
+            });
+        }, { rootMargin: '50px' });
 
         // Open modal
         async function openModal(movie) {
@@ -1003,18 +1052,34 @@
             document.getElementById('videoPlayer').src = '';
         }
 
-        // Search
+        // Debounced search
+        let searchTimeout;
         document.getElementById('searchInput').addEventListener('input', async (e) => {
             const query = e.target.value.trim();
+            clearTimeout(searchTimeout);
+            
             if (query.length > 2) {
-                const res = await fetch(`${BASE_URL}/search/movie?api_key=${API_KEY}&query=${query}`);
-                const data = await res.json();
-                document.getElementById('trending').innerHTML = '';
-                data.results.forEach(movie => {
-                    displayMovie(movie, 'trending');
-                });
+                searchTimeout = setTimeout(async () => {
+                    const res = await fetch(`${BASE_URL}/search/movie?api_key=${API_KEY}&query=${query}`);
+                    const data = await res.json();
+                    document.getElementById('trending').innerHTML = '<div class="loading">Searching...</div>';
+                    setTimeout(() => {
+                        document.getElementById('trending').innerHTML = '';
+                        if (data.results.length > 0) {
+                            data.results.forEach(movie => {
+                                displayMovie(movie, 'trending');
+                            });
+                        } else {
+                            document.getElementById('trending').innerHTML = '<div class="loading">No results found</div>';
+                        }
+                    }, 300);
+                }, 500);
             } else if (query.length === 0) {
-                loadMovies();
+                document.getElementById('trending').innerHTML = '<div class="loading">Loading...</div>';
+                setTimeout(() => {
+                    document.getElementById('trending').innerHTML = '';
+                    fetchMovies('popular', 'trending');
+                }, 300);
             }
         });
 
@@ -1162,6 +1227,8 @@
             fetchMovies('popular', 'trending');
             fetchMovies('popular', 'popular');
             fetchMovies('top_rated', 'topRated');
+            fetchMovies('now_playing', 'nowPlaying');
+            fetchMovies('upcoming', 'upcoming');
         }
 
         // Initialize
