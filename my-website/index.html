@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1062,10 +1061,12 @@
 
         const servers = [
             { name: 'VidSrc.to ⭐', url: (id) => `https://vidsrc.to/embed/movie/${id}`, adfree: false },
-            { name: 'VidSrc.Pro', url: (id) => `https://vidsrc.xyz/embed/movie/${id}`, adfree: false },
-            { name: 'SuperEmbed', url: (id) => `https://multiembed.mov/?video_id=${id}&tmdb=1`, adfree: false },
+            { name: 'VidSrc.cc', url: (id) => `https://vidsrc.cc/v2/embed/movie/${id}`, adfree: false },
             { name: 'Embed.su', url: (id) => `https://embed.su/embed/movie/${id}`, adfree: false },
-            { name: 'VidSrc Premium 🚀', url: (id) => `https://vidsrc.net/embed/movie/${id}`, adfree: true }
+            { name: 'P-Stream', url: (id) => `https://embed.pstream.org/movie/${id}`, adfree: false },
+            { name: 'SuperEmbed', url: (id) => `https://multiembed.mov/?video_id=${id}&tmdb=1`, adfree: false },
+            { name: 'AutoEmbed', url: (id) => `https://autoembed.cc/embed/movie/${id}`, adfree: false },
+            { name: 'MoviesAPI', url: (id) => `https://moviesapi.club/movie/${id}`, adfree: false }
         ];
 
         let currentServerIndex = 0;
