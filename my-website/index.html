@@ -7,7 +7,7 @@
         /* Modern Movie Website - Complete Professional CSS */
         
         :root {
-            /* Modern Dark Theme with Professional Colors */
+            /* Modern Dark Theme */
             --primary-accent: #8b5cf6;
             --primary-light: #a78bfa;
             --primary-dark: #7c3aed;
@@ -22,6 +22,24 @@
             --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
             --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.6);
             --shadow-lg: 0 10px 25px rgba(139, 92, 246, 0.3);
+        }
+
+        [data-theme="light"] {
+            /* Light Theme */
+            --primary-accent: #7c3aed;
+            --primary-light: #8b5cf6;
+            --primary-dark: #6d28d9;
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --bg-card: #f1f3f5;
+            --text-primary: #1a1a2e;
+            --text-secondary: #495057;
+            --text-muted: #6c757d;
+            --hover-bg: rgba(124, 58, 237, 0.08);
+            --border-subtle: rgba(124, 58, 237, 0.15);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(124, 58, 237, 0.15);
         }
 
         * {
@@ -119,6 +137,29 @@
         .search-bar:focus {
             border-color: var(--primary-accent);
             box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .theme-toggle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--border-subtle);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--hover-bg);
+            transform: rotate(20deg) scale(1.1);
+        }
+
+        .theme-icon {
+            font-size: 18px;
         }
 
         /* Banner */
@@ -574,6 +615,7 @@
             border: none;
             border-radius: 4px;
             margin-bottom: 20px;
+            background: var(--bg-card);
         }
 
         /* Cast Section */
@@ -603,6 +645,60 @@
         .cast-character {
             font-size: 12px;
             color: var(--text-muted);
+        }
+
+        /* Download Links */
+        .download-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            margin-bottom: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .download-link:hover {
+            background: var(--hover-bg);
+            border-color: var(--primary-accent);
+            transform: translateX(4px);
+        }
+
+        .download-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .download-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .download-details h4 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .download-details p {
+            margin: 4px 0 0 0;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .download-arrow {
+            font-size: 20px;
+            color: var(--primary-accent);
         }
 
         /* Footer */
@@ -715,6 +811,9 @@
             <a href="#" class="active">Home</a>
             <a href="#">Movies</a>
             <a href="#">TV Shows</a>
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">
+                <span class="theme-icon">☀️</span>
+            </button>
             <input type="text" class="search-bar" id="searchInput" placeholder="Search movies...">
         </div>
     </nav>
@@ -775,11 +874,12 @@
                     <button class="tab active" onclick="showTab('player')">Player</button>
                     <button class="tab" onclick="showTab('details')">Details</button>
                     <button class="tab" onclick="showTab('cast')">Cast</button>
+                    <button class="tab" onclick="showTab('download')">Download</button>
                 </div>
 
                 <div id="playerTab" class="tab-content active">
                     <div class="server-selector" id="serverSelector"></div>
-                    <iframe id="videoPlayer" class="video-player" allowfullscreen></iframe>
+                    <iframe id="videoPlayer" class="video-player" allowfullscreen allow="autoplay"></iframe>
                 </div>
 
                 <div id="detailsTab" class="tab-content">
@@ -789,6 +889,12 @@
 
                 <div id="castTab" class="tab-content">
                     <div class="cast-grid" id="castGrid"></div>
+                </div>
+
+                <div id="downloadTab" class="tab-content">
+                    <h3 style="margin-bottom: 16px;">Download Options</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">Choose a download server below. Click to open the download page in a new tab.</p>
+                    <div id="downloadLinks"></div>
                 </div>
             </div>
         </div>
@@ -1011,8 +1117,21 @@
             // Render servers
             renderServers(movie.id);
             
+            // Render download links
+            renderDownloadLinks(movie.id, movie.title);
+            
             modal.classList.add('active');
             showTab('player');
+            
+            // Auto-play video after modal opens
+            setTimeout(() => {
+                const videoPlayer = document.getElementById('videoPlayer');
+                if (videoPlayer && videoPlayer.src) {
+                    // Trigger play by reloading the iframe
+                    const currentSrc = videoPlayer.src;
+                    videoPlayer.src = currentSrc;
+                }
+            }, 500);
         }
 
         // Render server buttons
@@ -1037,12 +1156,70 @@
             document.getElementById('videoPlayer').src = server.url(movieId);
         }
 
+        // Render download links
+        function renderDownloadLinks(movieId, movieTitle) {
+            const downloadServers = [
+                { 
+                    name: 'Download Server 1', 
+                    url: `https://dl.vidsrc.vip/movie/${movieId}`,
+                    quality: '1080p / 720p / 480p'
+                },
+                { 
+                    name: 'Download Server 2', 
+                    url: `https://api.123moviestv.me/imdb/movie/${movieId}`,
+                    quality: 'Multiple Quality Options'
+                },
+                { 
+                    name: 'Download Server 3', 
+                    url: `https://vadapav.mov/download?type=movie&id=${movieId}`,
+                    quality: 'HD Quality'
+                },
+                { 
+                    name: 'Torrent Download', 
+                    url: `https://yts.mx/browse-movies/${encodeURIComponent(movieTitle)}/all/all/0/latest`,
+                    quality: 'Multiple Quality Options'
+                }
+            ];
+
+            const downloadLinks = document.getElementById('downloadLinks');
+            downloadLinks.innerHTML = '';
+            
+            downloadServers.forEach(server => {
+                const link = document.createElement('a');
+                link.className = 'download-link';
+                link.href = server.url;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                link.innerHTML = `
+                    <div class="download-info">
+                        <div class="download-icon">⬇</div>
+                        <div class="download-details">
+                            <h4>${server.name}</h4>
+                            <p>${server.quality}</p>
+                        </div>
+                    </div>
+                    <div class="download-arrow">→</div>
+                `;
+                downloadLinks.appendChild(link);
+            });
+        }
+
         // Show tab
         function showTab(tabName) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             
-            event.target.classList.add('active');
+            // Find and activate the correct tab button
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach((tab, index) => {
+                if ((tabName === 'player' && index === 0) ||
+                    (tabName === 'details' && index === 1) ||
+                    (tabName === 'cast' && index === 2) ||
+                    (tabName === 'download' && index === 3)) {
+                    tab.classList.add('active');
+                }
+            });
+            
             document.getElementById(tabName + 'Tab').classList.add('active');
         }
 
@@ -1229,6 +1406,31 @@
             fetchMovies('top_rated', 'topRated');
             fetchMovies('now_playing', 'nowPlaying');
             fetchMovies('upcoming', 'upcoming');
+        }
+
+        // Theme toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            const icon = document.querySelector('.theme-icon');
+            
+            html.setAttribute('data-theme', newTheme);
+            icon.textContent = newTheme === 'light' ? '🌙' : '☀️';
+            
+            // Simple animation
+            const toggle = document.getElementById('themeToggle');
+            toggle.style.transform = 'rotate(360deg) scale(1.2)';
+            setTimeout(() => {
+                toggle.style.transform = '';
+            }, 300);
+        }
+
+        // Check for saved theme preference or default to dark
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.querySelector('.theme-icon').textContent = savedTheme === 'light' ? '🌙' : '☀️';
         }
 
         // Initialize
