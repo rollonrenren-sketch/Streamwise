@@ -995,6 +995,24 @@
 
                 <div id="playerTab" class="tab-content">
                     <div class="server-selector" id="serverSelector"></div>
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-right: 8px;">Subtitles:</label>
+                        <select id="subtitleSelect" style="padding: 6px 12px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 4px; color: var(--text-primary); font-size: 13px; cursor: pointer;">
+                            <option value="">Off</option>
+                            <option value="en">English</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="it">Italian</option>
+                            <option value="pt">Portuguese</option>
+                            <option value="ru">Russian</option>
+                            <option value="ja">Japanese</option>
+                            <option value="ko">Korean</option>
+                            <option value="zh">Chinese</option>
+                            <option value="ar">Arabic</option>
+                            <option value="hi">Hindi</option>
+                        </select>
+                    </div>
                     <iframe id="videoPlayer" class="video-player" allowfullscreen allow="autoplay"></iframe>
                 </div>
 
@@ -1043,10 +1061,11 @@
         const IMG_URL_ORIGINAL = 'https://image.tmdb.org/t/p/original';
 
         const servers = [
-            { name: 'VidSrc.to ⭐', url: (id) => `https://vidsrc.to/embed/movie/${id}` },
-            { name: 'VidSrc.Pro', url: (id) => `https://vidsrc.xyz/embed/movie/${id}` },
-            { name: 'SuperEmbed', url: (id) => `https://multiembed.mov/?video_id=${id}&tmdb=1` },
-            { name: 'Embed.su', url: (id) => `https://embed.su/embed/movie/${id}` }
+            { name: 'VidSrc.to ⭐', url: (id) => `https://vidsrc.to/embed/movie/${id}`, adfree: false },
+            { name: 'VidSrc.Pro', url: (id) => `https://vidsrc.xyz/embed/movie/${id}`, adfree: false },
+            { name: 'SuperEmbed', url: (id) => `https://multiembed.mov/?video_id=${id}&tmdb=1`, adfree: false },
+            { name: 'Embed.su', url: (id) => `https://embed.su/embed/movie/${id}`, adfree: false },
+            { name: 'VidSrc Premium 🚀', url: (id) => `https://vidsrc.net/embed/movie/${id}`, adfree: true }
         ];
 
         let currentServerIndex = 0;
@@ -1309,6 +1328,7 @@
 
             renderServers(movie.id);
             updateListButton();
+            setupSubtitleSelector();
             
             modal.classList.add('active');
             showTab('trailer');
@@ -1326,7 +1346,12 @@
             servers.forEach((server, index) => {
                 const btn = document.createElement('button');
                 btn.className = `server-btn ${index === 0 ? 'active' : ''}`;
-                btn.textContent = server.name;
+                btn.textContent = server.name + (server.adfree ? ' (Ad-Free)' : '');
+                if (server.adfree) {
+                    btn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                    btn.style.color = 'white';
+                    btn.style.borderColor = '#667eea';
+                }
                 btn.onclick = () => changeServer(server, btn, movieId, index);
                 selector.appendChild(btn);
             });
@@ -1383,7 +1408,28 @@
             player.src = '';
             
             setTimeout(() => {
-                player.src = server.url(movieId);
+                const subtitleLang = document.getElementById('subtitleSelect').value;
+                let url = server.url(movieId);
+                if (subtitleLang && server.name.includes('VidSrc')) {
+                    url += `?sub=${subtitleLang}`;
+                }
+                player.src = url;
+            }, 100);
+        }
+
+        function updateSubtitles() {
+            if (!currentMovie) return;
+            const player = document.getElementById('videoPlayer');
+            const server = servers[currentServerIndex];
+            const subtitleLang = document.getElementById('subtitleSelect').value;
+            
+            player.src = '';
+            setTimeout(() => {
+                let url = server.url(currentMovie.id);
+                if (subtitleLang && server.name.includes('VidSrc')) {
+                    url += `?sub=${subtitleLang}`;
+                }
+                player.src = url;
             }, 100);
         }
 
@@ -1400,6 +1446,11 @@
                     renderServers(currentMovie.id);
                 }
             }
+        }
+
+        function setupSubtitleSelector() {
+            const select = document.getElementById('subtitleSelect');
+            select.onchange = updateSubtitles;
         }
 
         function closeModal() {
