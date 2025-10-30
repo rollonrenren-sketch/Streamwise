@@ -2,27 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MFS - Modern Fact Stories</title>
     <style>
 :root {
-  /* Aesthetic Minimalist Color Palette */
-  --primary: #667eea;
-  --primary-hover: #5a67d8;
-  --primary-light: rgba(102, 126, 234, 0.1);
-  --accent: #f687b3;
-  --background: #0f1419;
-  --surface: #1a1f29;
-  --surface-light: #252d3d;
-  --text: #e2e8f0;
-  --text-secondary: #a0aec0;
-  --text-muted: #718096;
-  --card-bg: #1e2533;
-  --card-hover: #2a3244;
-  --border: rgba(255, 255, 255, 0.1);
-  --shadow: rgba(0, 0, 0, 0.3);
-  --gradient-start: #667eea;
-  --gradient-end: #764ba2;
+  /* Modern Color Palette */
+  --primary-accent: #00d9ff;
+  --primary-accent-hover: #00b8d9;
+  --primary-accent-glow: rgba(0, 217, 255, 0.4);
+  --dark-bg: #0a0a0a;
+  --secondary-bg: #141414;
+  --card-bg: #1a1a1a;
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --text-muted: #999999;
+  --border-color: #2a2a2a;
+  --border-accent: rgba(0, 217, 255, 0.2);
 }
 
 * {
@@ -32,13 +27,11 @@
 }
 
 body {
-  font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  background: var(--background);
-  color: var(--text);
-  line-height: 1.4;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--dark-bg);
+  color: var(--text-primary);
+  line-height: 1.6;
   overflow-x: hidden;
-  margin: 0;
-  padding: 0;
 }
 
 /* Navbar */
@@ -51,14 +44,16 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 20px 60px;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 10%, transparent);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0) 100%);
+  backdrop-filter: blur(12px);
   z-index: 100;
-  transition: background-color 0.4s ease;
+  transition: all 0.3s;
 }
 
 .navbar.scrolled {
-  background: var(--surface);
-  box-shadow: 0 4px 20px var(--shadow);
+  background: rgba(10, 10, 10, 0.98);
+  box-shadow: 0 4px 24px rgba(0, 217, 255, 0.15);
+  border-bottom: 1px solid var(--border-accent);
 }
 
 .navbar-logo {
@@ -67,20 +62,19 @@ body {
   gap: 12px;
 }
 
-.navbar-logo {
-  cursor: pointer;
-}
-
 .navbar-logo img {
-  height: 45px;
-  width: 45px;
+  height: 48px;
+  width: 48px;
   border-radius: 50%;
-  object-fit: cover;
-  transition: all 0.2s ease;
+  box-shadow: 0 0 20px var(--primary-accent-glow);
+  transition: all 0.3s;
+  border: 2px solid rgba(0, 217, 255, 0.3);
+  animation: shimmer 3s ease-in-out infinite;
 }
 
 .navbar-logo img:hover {
-  transform: scale(1.05);
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 0 40px var(--primary-accent-glow);
 }
 
 .navbar-brand {
@@ -89,15 +83,6 @@ body {
   color: var(--text-primary);
   text-shadow: 0 0 15px var(--primary-accent-glow);
   display: none;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
 }
 
 .nav-links {
@@ -128,12 +113,11 @@ body {
 }
 
 .nav-links a:hover {
-  color: #e6e6e6;
+  color: var(--primary-accent);
 }
 
 .nav-links a:hover::before {
   width: 100%;
-  background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
 }
 
 .search-bar {
@@ -149,9 +133,8 @@ body {
 }
 
 .search-bar:focus {
-  border-color: var(--primary);
-  background: var(--surface-light);
-  box-shadow: 0 0 0 3px var(--primary-light);
+  border-color: var(--primary-accent);
+  box-shadow: 0 0 0 3px var(--primary-accent-glow);
 }
 
 /* Banner */
@@ -203,16 +186,14 @@ body {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-  color: #ffffff;
-  font-weight: 700;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, var(--primary-accent) 0%, #0099cc 100%);
+  color: #000;
+  box-shadow: 0 4px 20px var(--primary-accent-glow);
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, var(--primary-hover), var(--gradient-end));
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-  transform: translateY(-2px);
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 8px 32px var(--primary-accent-glow);
 }
 
 .btn-secondary {
@@ -241,12 +222,12 @@ body {
 .row h2::after {
   content: '';
   position: absolute;
-  bottom: -8px;
+  bottom: -6px;
   left: 0;
-  width: 60px;
+  width: 70px;
   height: 3px;
-  background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
-  border-radius: 2px;
+  background: linear-gradient(90deg, var(--primary-accent), transparent);
+  box-shadow: 0 0 10px var(--primary-accent-glow);
 }
 
 .list {
@@ -273,15 +254,10 @@ body {
 .movie-card {
   min-width: 220px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  border-radius: 4px;
+  transition: all 0.3s;
+  border-radius: 12px;
   overflow: hidden;
-  position: relative;
-  background: transparent;
-}
-
-.movie-card::before {
-  display: none;
+  border: 2px solid transparent;
 }
 
 .movie-card img {
@@ -289,17 +265,12 @@ body {
   height: 330px;
   object-fit: cover;
   display: block;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .movie-card:hover {
-  transform: scale(1.05);
-  z-index: 10;
-  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
-}
-
-.movie-card:hover img {
-  transform: none;
+  transform: scale(1.15) translateY(-10px);
+  box-shadow: 0 16px 40px rgba(0, 217, 255, 0.3);
+  border-color: var(--primary-accent);
 }
 
 /* Modal */
@@ -322,14 +293,14 @@ body {
 }
 
 .modal-content {
-  background: var(--surface);
+  background: linear-gradient(135deg, #141414 0%, #1a1a1a 100%);
   width: 90%;
   max-width: 950px;
   max-height: 90vh;
   overflow-y: auto;
   border-radius: 16px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-accent);
   animation: slideUp 0.5s;
 }
 
@@ -392,32 +363,6 @@ body {
   font-size: 12px;
 }
 
-.server-btn {
-  padding: 10px 20px;
-  background: var(--card-bg);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-
-.server-btn:hover {
-  background: var(--card-hover-bg);
-  border-color: var(--primary-accent);
-  transform: translateY(-2px);
-}
-
-.server-btn.active {
-  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-  border-color: var(--primary);
-  color: #fff;
-  font-weight: 700;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-}
-
 .modal-description {
   font-size: 16px;
   color: var(--text-secondary);
@@ -455,8 +400,7 @@ body {
 .close:hover {
   background: rgba(0, 0, 0, 0.9);
   transform: rotate(90deg) scale(1.1);
-  border-color: var(--primary);
-  box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+  border-color: var(--primary-accent);
 }
 
 /* Footer */
@@ -488,7 +432,8 @@ body {
 }
 
 .footer-links a:hover {
-  color: var(--text-primary);
+  color: var(--primary-accent);
+  transform: translateX(4px);
 }
 
 .footer-bottom {
@@ -508,216 +453,56 @@ body {
 
 /* Animations */
 @keyframes shimmer {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.8; }
+  0% { box-shadow: 0 0 20px var(--primary-accent-glow); }
+  50% { box-shadow: 0 0 40px var(--primary-accent-glow); }
+  100% { box-shadow: 0 0 20px var(--primary-accent-glow); }
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-/* Performance Optimizations */
-* {
-  -webkit-tap-highlight-color: transparent;
-}
-
-.movie-card,
-.navbar-logo img,
-.btn {
-  will-change: transform;
-}
-
-img {
-  -webkit-user-select: none;
-  user-select: none;
-  pointer-events: none;
-}
-
-/* Responsive Design - Mobile First Approach */
-
-/* Large Desktop (1920px+) */
-@media (min-width: 1920px) {
-  .navbar,
-  .row,
-  .footer {
-    padding-left: 120px;
-    padding-right: 120px;
-  }
-  
-  .banner {
-    padding-left: 120px;
-    padding-right: 120px;
-  }
-  
-  .movie-card {
-    min-width: 260px;
-  }
-  
-  .movie-card img {
-    height: 390px;
-  }
-}
-
-/* Desktop (1200px - 1919px) */
-@media (min-width: 1200px) and (max-width: 1919px) {
-  .navbar,
-  .row,
-  .footer {
-    padding-left: 80px;
-    padding-right: 80px;
-  }
-  
-  .banner {
-    padding-left: 80px;
-    padding-right: 80px;
-  }
-}
-
-/* Laptop (1024px - 1199px) */
-@media (min-width: 1024px) and (max-width: 1199px) {
-  .navbar,
-  .row,
-  .footer {
-    padding-left: 60px;
-    padding-right: 60px;
-  }
-  
-  .banner {
-    padding-left: 60px;
-    padding-right: 60px;
-  }
-  
-  .movie-card {
-    min-width: 200px;
-  }
-  
-  .movie-card img {
-    height: 300px;
-  }
-}
-
-/* Tablet Landscape (768px - 1023px) */
-@media (min-width: 768px) and (max-width: 1023px) {
+/* Responsive */
+@media (max-width: 768px) {
   .navbar {
-    padding: 18px 40px;
-  }
-  
-  .navbar-logo img {
-    height: 42px;
-    width: 42px;
-  }
-  
-  .nav-links {
-    gap: 24px;
-    font-size: 13px;
-  }
-  
-  .search-bar {
-    min-width: 180px;
-  }
-  
-  .banner {
-    height: 75vh;
-    padding: 0 40px 100px;
-  }
-  
-  .banner h1 {
-    font-size: 40px;
-  }
-  
-  .banner p {
-    font-size: 17px;
-  }
-  
-  .row {
-    margin: 40px 40px 28px;
-  }
-  
-  .row h2 {
-    font-size: 22px;
-  }
-  
-  .movie-card {
-    min-width: 180px;
-  }
-  
-  .movie-card img {
-    height: 270px;
-  }
-  
-  .modal-content {
-    width: 85%;
-  }
-  
-  .modal-header {
-    height: 350px;
-  }
-  
-  .video-player {
-    height: 400px;
-  }
-  
-  .footer {
-    padding: 40px;
-  }
-}
-
-/* Tablet Portrait & Large Phone (600px - 767px) */
-@media (min-width: 600px) and (max-width: 767px) {
-  .navbar {
-    padding: 16px 32px;
+    padding: 16px 24px;
     flex-wrap: wrap;
-    gap: 12px;
   }
   
   .navbar-logo img {
-    height: 40px;
-    width: 40px;
+    height: 36px;
+    width: 36px;
+  }
+  
+  .navbar-brand {
+    font-size: 18px;
   }
   
   .nav-links {
-    order: 3;
-    width: 100%;
-    justify-content: center;
-    gap: 20px;
-    font-size: 13px;
-    padding-top: 12px;
-    border-top: 1px solid var(--border-color);
+    gap: 16px;
+    font-size: 12px;
   }
   
   .search-bar {
-    width: auto;
-    flex: 1;
-    min-width: 200px;
+    width: 100%;
+    margin-top: 8px;
   }
   
   .banner {
-    height: 65vh;
-    padding: 0 32px 80px;
+    height: 70vh;
+    padding: 0 24px 80px;
   }
   
   .banner h1 {
-    font-size: 36px;
+    font-size: 32px;
   }
   
   .banner p {
     font-size: 16px;
   }
   
-  .banner-buttons {
-    flex-direction: row;
-  }
-  
-  .btn {
-    flex: 1;
-  }
-  
   .row {
-    margin: 36px 32px 24px;
-  }
-  
-  .row h2 {
-    font-size: 20px;
+    margin: 32px 24px;
   }
   
   .movie-card {
@@ -728,168 +513,16 @@ img {
     height: 240px;
   }
   
-  .modal-content {
-    width: 90%;
-  }
-  
   .modal-header {
-    height: 300px;
-  }
-  
-  .modal-body {
-    padding: 28px;
-  }
-  
-  .video-player {
-    height: 320px;
-  }
-  
-  .server-btn {
-    font-size: 13px;
-    padding: 9px 16px;
-  }
-  
-  .footer {
-    padding: 36px 32px;
-  }
-  
-  .footer-links {
-    gap: 32px;
-  }
-}
-
-/* Mobile (480px - 599px) */
-@media (min-width: 480px) and (max-width: 599px) {
-  .navbar {
-    padding: 14px 24px;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  
-  .navbar-logo img {
-    height: 38px;
-    width: 38px;
-  }
-  
-  .nav-links {
-    order: 3;
-    width: 100%;
-    justify-content: space-around;
-    gap: 8px;
-    font-size: 12px;
-    padding-top: 10px;
-    border-top: 1px solid var(--border-color);
-  }
-  
-  .search-bar {
-    flex: 1;
-    min-width: 0;
-    font-size: 13px;
-    padding: 8px 14px;
-  }
-  
-  .banner {
-    height: 60vh;
-    padding: 0 24px 70px;
-  }
-  
-  .banner h1 {
-    font-size: 30px;
-    line-height: 1.2;
-  }
-  
-  .banner p {
-    font-size: 15px;
-    line-height: 1.5;
-  }
-  
-  .banner-buttons {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .btn {
-    width: 100%;
-    justify-content: center;
-    padding: 12px 24px;
-    font-size: 15px;
-  }
-  
-  .row {
-    margin: 32px 24px 20px;
-  }
-  
-  .row h2 {
-    font-size: 19px;
-    margin-bottom: 18px;
-  }
-  
-  .list {
-    gap: 10px;
-    padding: 12px 0;
-  }
-  
-  .movie-card {
-    min-width: 145px;
-  }
-  
-  .movie-card img {
-    height: 218px;
-  }
-  
-  .movie-card:hover {
-    transform: scale(1.08) translateY(-6px);
-  }
-  
-  .modal-content {
-    width: 92%;
-    border-radius: 12px;
-  }
-  
-  .modal-header {
-    height: 260px;
-    border-radius: 12px 12px 0 0;
-  }
-  
-  .modal-body {
-    padding: 24px 20px;
-  }
-  
-  .modal-title {
-    font-size: 26px;
-    line-height: 1.3;
-  }
-  
-  .modal-meta {
-    font-size: 13px;
-    gap: 16px;
-  }
-  
-  .modal-description {
-    font-size: 15px;
-    line-height: 1.6;
-  }
-  
-  .video-player {
     height: 280px;
-    border-radius: 8px;
   }
   
-    gap: 6px;
-    margin-bottom: 14px;
+  .modal-body {
+    padding: 24px;
   }
   
-  .server-btn {
-    font-size: 12px;
-    padding: 8px 14px;
-  }
-  
-  .close {
-    width: 40px;
-    height: 40px;
-    font-size: 28px;
-    top: 16px;
-    right: 16px;
+  .video-player {
+    height: 250px;
   }
   
   .footer {
@@ -898,306 +531,8 @@ img {
   
   .footer-links {
     flex-direction: column;
-    gap: 20px;
-    text-align: center;
-  }
-  
-  .footer-bottom {
-    font-size: 11px;
-    padding-top: 24px;
-  }
-}
-
-/* Small Mobile (320px - 479px) */
-@media (max-width: 479px) {
-  .navbar {
-    padding: 12px 16px;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  
-  .navbar-logo img {
-    height: 36px;
-    width: 36px;
-  }
-  
-  .nav-links {
-    order: 3;
-    width: 100%;
-    justify-content: space-between;
-    gap: 4px;
-    font-size: 11px;
-    padding-top: 8px;
-    border-top: 1px solid var(--border-color);
-  }
-  
-  .nav-links a {
-    padding: 4px 6px;
-  }
-  
-  .search-bar {
-    flex: 1;
-    min-width: 0;
-    font-size: 12px;
-    padding: 7px 12px;
-  }
-  
-  .banner {
-    height: 55vh;
-    min-height: 400px;
-    padding: 0 16px 60px;
-  }
-  
-  .banner h1 {
-    font-size: 26px;
-    line-height: 1.2;
-    margin-bottom: 12px;
-  }
-  
-  .banner p {
-    font-size: 14px;
-    line-height: 1.5;
-    margin-bottom: 20px;
-  }
-  
-  .banner-buttons {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .btn {
-    width: 100%;
-    justify-content: center;
-    padding: 11px 20px;
-    font-size: 14px;
-  }
-  
-  .row {
-    margin: 28px 16px 16px;
-  }
-  
-  .row h2 {
-    font-size: 18px;
-    margin-bottom: 16px;
-  }
-  
-  .row h2::after {
-    width: 50px;
-    height: 2px;
-  }
-  
-  .list {
-    gap: 8px;
-    padding: 10px 0;
-  }
-  
-  .list::-webkit-scrollbar {
-    height: 6px;
-  }
-  
-  .movie-card {
-    min-width: 130px;
-  }
-  
-  .movie-card img {
-    height: 195px;
-  }
-  
-  .movie-card:hover {
-    transform: scale(1.06) translateY(-4px);
-  }
-  
-  .modal-content {
-    width: 95%;
-    max-height: 95vh;
-    border-radius: 10px;
-  }
-  
-  .modal-header {
-    height: 220px;
-    border-radius: 10px 10px 0 0;
-  }
-  
-  .modal-body {
-    padding: 20px 16px;
-  }
-  
-  .modal-title {
-    font-size: 24px;
-    line-height: 1.3;
-    margin-bottom: 12px;
-  }
-  
-  .modal-meta {
-    font-size: 12px;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-  
-  .rating-badge {
-    padding: 3px 8px;
-    font-size: 11px;
-  }
-  
-  .modal-description {
-    font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 20px;
-  }
-  
-  .video-player {
-    height: 220px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-  }
-  
-    gap: 5px;
-    margin-bottom: 12px;
-  }
-  
-  .server-btn {
-    font-size: 11px;
-    padding: 7px 12px;
-    border-radius: 6px;
-  }
-  
-  .close {
-    width: 36px;
-    height: 36px;
-    font-size: 24px;
-    top: 12px;
-    right: 12px;
-  }
-  
-  .footer {
-    padding: 28px 16px;
-    margin-top: 60px;
-  }
-  
-  .footer-links {
-    flex-direction: column;
     gap: 16px;
     text-align: center;
-    font-size: 13px;
-  }
-  
-  .footer-bottom {
-    font-size: 10px;
-    padding-top: 20px;
-    line-height: 1.5;
-  }
-  
-  .info-section {
-    font-size: 14px !important;
-  }
-  
-  .info-section h2 {
-    font-size: 26px !important;
-  }
-  
-  .info-section h3 {
-    font-size: 18px !important;
-  }
-}
-
-/* Ultra-wide screens */
-@media (min-width: 2560px) {
-  .movie-card {
-    min-width: 300px;
-  }
-  
-  .movie-card img {
-    height: 450px;
-  }
-  
-  .banner h1 {
-    font-size: 64px;
-  }
-  
-  .banner p {
-    font-size: 22px;
-  }
-}
-
-/* Landscape orientation optimization */
-@media (max-height: 500px) and (orientation: landscape) {
-  .banner {
-    height: 85vh;
-    min-height: 300px;
-  }
-  
-  .banner h1 {
-    font-size: 24px;
-  }
-  
-  .banner p {
-    font-size: 13px;
-    margin-bottom: 16px;
-  }
-  
-  .banner-buttons {
-    flex-direction: row;
-    gap: 12px;
-  }
-  
-  .btn {
-    padding: 8px 20px;
-    font-size: 13px;
-  }
-  
-  .navbar {
-    padding: 10px 24px;
-  }
-  
-  .modal-header {
-    height: 200px;
-  }
-  
-  .video-player {
-    height: 250px;
-  }
-}
-
-/* Reduced motion preference */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-  
-  .navbar-logo img {
-    animation: none;
-  }
-}
-
-/* Dark mode optimization (already dark, but ensures consistency) */
-@media (prefers-color-scheme: dark) {
-  body {
-    background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
-  }
-}
-
-/* Touch device optimizations */
-@media (hover: none) and (pointer: coarse) {
-  .movie-card:hover {
-    transform: none;
-  }
-  
-  .movie-card:active {
-    transform: scale(1.08) translateY(-6px);
-  }
-  
-  .btn:hover {
-    transform: none;
-  }
-  
-  .btn:active {
-    transform: scale(0.98);
-  }
-  
-  .nav-links a:hover::before {
-    width: 0;
   }
 }
     </style>
@@ -1263,16 +598,6 @@ img {
             <span class="close" onclick="closeModal()">&times;</span>
             <div class="modal-header" id="modalHeader"></div>
             <div class="modal-body">
-                <div class="server-selector" id="serverSelector" style="margin-bottom: 16px; display: flex; gap: 8px; flex-wrap: wrap;">
-                    <button class="server-btn active" onclick="changeServer('vidsrc')">VidSrc</button>
-                    <button class="server-btn" onclick="changeServer('vidsrc2')">VidSrc 2</button>
-                    <button class="server-btn" onclick="changeServer('vidsrcpro')">VidSrc Pro</button>
-                    <button class="server-btn" onclick="changeServer('embedsu')">EmbedSu</button>
-                    <button class="server-btn" onclick="changeServer('superembed')">SuperEmbed</button>
-                    <button class="server-btn" onclick="changeServer('2embed')">2Embed</button>
-                    <button class="server-btn" onclick="changeServer('smashystream')">SmashyStream</button>
-                    <button class="server-btn" onclick="changeServer('moviesapi')">MoviesAPI</button>
-                </div>
                 <iframe class="video-player" id="videoPlayer" allowfullscreen></iframe>
                 <h2 class="modal-title" id="modalTitle"></h2>
                 <div class="modal-meta">
@@ -1480,9 +805,8 @@ async function openModal(movieId) {
         document.getElementById('modalRuntime').textContent = movie.runtime + ' min';
         document.getElementById('modalDesc').textContent = movie.overview;
         
-        // Set video player with VidSrc.to (best free provider)
-        currentMovieId = movieId;
-        changeServer('vidsrc');
+        // Set video player
+        document.getElementById('videoPlayer').src = `https://vidsrc.to/embed/movie/${movieId}`;
         
         document.getElementById('modal').classList.add('active');
     } catch (error) {
@@ -1560,37 +884,6 @@ function showSection(section) {
 // Close info modal
 function closeInfoModal() {
     document.getElementById('infoModal').classList.remove('active');
-}
-
-// Best free streaming providers with multiple fallbacks
-const servers = {
-    vidsrc: (id) => `https://vidsrc.to/embed/movie/${id}`,
-    vidsrc2: (id) => `https://vidsrc.me/embed/movie?tmdb=${id}`,
-    vidsrcpro: (id) => `https://vidsrc.pro/embed/movie/${id}`,
-    embedsu: (id) => `https://embed.su/embed/movie/${id}`,
-    superembed: (id) => `https://multiembed.mov/?video_id=${id}&tmdb=1`,
-    '2embed': (id) => `https://www.2embed.cc/embed/${id}`,
-    smashystream: (id) => `https://embed.smashystream.com/playere.php?tmdb=${id}`,
-    primewire: (id) => `https://www.primewire.tf/embed/${id}`,
-    moviesapi: (id) => `https://moviesapi.club/movie/${id}`,
-    rivenow: (id) => `https://rivenow.org/embed/movie?id=${id}`
-};
-
-let currentServer = 'vidsrc';
-
-// Change streaming server
-function changeServer(serverName) {
-    if (!currentMovieId) return;
-    
-    currentServer = serverName;
-    const iframe = document.getElementById('videoPlayer');
-    iframe.src = servers[serverName](currentMovieId);
-    
-    // Update active button
-    document.querySelectorAll('.server-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    event.target.classList.add('active');
 }
     </script>
 </body>
