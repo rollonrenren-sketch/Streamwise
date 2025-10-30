@@ -1043,12 +1043,18 @@
         const IMG_URL_ORIGINAL = 'https://image.tmdb.org/t/p/original';
 
         const servers = [
-            { name: 'VidSrc.to', url: (id) => `https://vidsrc.to/embed/movie/${id}` },
-            { name: 'VidSrc.cc', url: (id) => `https://vidsrc.cc/v2/embed/movie/${id}` },
+            { name: 'VidSrc.to ⭐', url: (id) => `https://vidsrc.to/embed/movie/${id}` },
+            { name: 'VidSrc.Pro', url: (id) => `https://vidsrc.xyz/embed/movie/${id}` },
+            { name: 'SuperEmbed', url: (id) => `https://multiembed.mov/?video_id=${id}&tmdb=1` },
             { name: 'Embed.su', url: (id) => `https://embed.su/embed/movie/${id}` },
-            { name: 'P-Stream', url: (id) => `https://embed.pstream.org/movies/${id}` },
-            { name: 'MoviesAPI', url: (id) => `https://moviesapi.club/movie/${id}` }
+            { name: 'VidSrc.me', url: (id) => `https://vidsrc.me/embed/movie?tmdb=${id}` },
+            { name: 'NontonGo', url: (id) => `https://www.NontonGo.win/embed/movie/${id}` },
+            { name: 'VidLink', url: (id) => `https://vidlink.pro/movie/${id}` },
+            { name: 'AutoEmbed', url: (id) => `https://autoembed.cc/movie/tmdb/${id}` }
         ];
+
+        let currentServerIndex = 0;
+        let serverFallbackTimeout = null;
 
         const genres = [
             { id: 28, name: 'Action' },
@@ -1325,17 +1331,61 @@
                 const btn = document.createElement('button');
                 btn.className = `server-btn ${index === 0 ? 'active' : ''}`;
                 btn.textContent = server.name;
-                btn.onclick = () => changeServer(server, btn, movieId);
+                btn.onclick = () => changeServer(server, btn, movieId, index);
                 selector.appendChild(btn);
             });
-            document.getElementById('videoPlayer').src = servers[0].url(movieId);
+            loadServerWithFallback(movieId, 0);
         }
 
-        function changeServer(server, btn, movieId) {
+        function loadServerWithFallback(movieId, serverIndex) {
+            if (serverIndex >= servers.length) {
+                console.error('All servers failed to load');
+                return;
+            }
+
+            currentServerIndex = serverIndex;
+            const player = document.getElementById('videoPlayer');
+            const server = servers[serverIndex];
+            
+            player.src = '';
+            
+            clearTimeout(serverFallbackTimeout);
+            
+            setTimeout(() => {
+                player.src = server.url(movieId);
+                
+                serverFallbackTimeout = setTimeout(() => {
+                    console.log(`Server ${server.name} timed out, trying next...`);
+                    const nextIndex = serverIndex + 1;
+                    if (nextIndex < servers.length) {
+                        updateServerButton(nextIndex);
+                        loadServerWithFallback(movieId, nextIndex);
+                    }
+                }, 8000);
+            }, 100);
+
+            player.onload = () => {
+                clearTimeout(serverFallbackTimeout);
+                console.log(`Server ${server.name} loaded successfully`);
+            };
+        }
+
+        function updateServerButton(serverIndex) {
+            const buttons = document.querySelectorAll('.server-btn');
+            buttons.forEach((btn, index) => {
+                btn.classList.toggle('active', index === serverIndex);
+            });
+        }
+
+        function changeServer(server, btn, movieId, serverIndex) {
+            clearTimeout(serverFallbackTimeout);
             document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            currentServerIndex = serverIndex;
+            
             const player = document.getElementById('videoPlayer');
             player.src = '';
+            
             setTimeout(() => {
                 player.src = server.url(movieId);
             }, 100);
