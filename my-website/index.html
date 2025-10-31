@@ -1,233 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MFS - Premium Movie Streaming</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Link to your external CSS file -->    <link rel="stylesheet" href="home.css">
-    <link rel="icon" href="logo.jpg" type="image/jpeg"> <!-- Add a favicon -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Movie Website Home</title>
+  <link rel="stylesheet" href="home.css" />
 </head>
 <body>
-    <div class="loading-screen" id="loadingScreen">
-        <img src="logo.jpg" alt="MFS Logo" class="loading-logo">
-        <div class="loading-spinner"></div>
-        <div class="loading-text">Loading MFS Premium...</div>
-        <div class="loading-progress">
-            <div class="loading-progress-bar"></div>
+  <header>
+    <h1>Trending Movies</h1>
+    <input type="text" id="search" placeholder="Search movies..." />
+  </header>
+  <main id="movie-list" class="movie-grid"></main>
+
+  <script>
+    const apiKey = 'f27081ffd1178848ff5106836b2adc93'; // Your TMDb API key
+    const movieList = document.getElementById('movie-list');
+    const searchInput = document.getElementById('search');
+
+    async function fetchTrending() {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}`
+      );
+      const data = await response.json();
+      displayMovies(data.results);
+    }
+
+    function displayMovies(movies) {
+      movieList.innerHTML = movies
+        .map(
+          (movie) => `
+        <div class="movie-item">
+          <img src="https://image.tmdb.org/t/p/w300${movie.poster_path}" alt="${movie.title}" />
+          <h3>${movie.title}</h3>
+          <p>Rating: ${movie.vote_average}</p>
         </div>
-    </div>
+      `
+        )
+        .join('');
+    }
 
-    <nav class="navbar">
-        <div class="navbar-left">
-            <a href="#" class="navbar-logo" aria-label="MFS Home">
-                <img src="logo.jpg" alt="MFS Logo">
-            </a>
-            <div class="nav-menu">
-                <a href="#" class="nav-link active" data-section="home">Home</a>
-                <a href="#" class="nav-link" data-section="movies">Movies</a>
-                <a href="#" class="nav-link" data-section="mylist">My List</a>
-            </div>
-        </div>
-        <div class="navbar-right">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Search movies..." aria-label="Search movies">
-                <button class="search-icon" aria-label="Toggle search">🔍</button>
-            </div>
-            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle dark/light theme">
-                <span id="themeIcon">☀️</span>
-            </button>
-        </div>    </nav>
+    async function searchMovies(query) {
+      if (!query) {
+        fetchTrending();
+        return;
+      }
+      const response = await fetch(
+        `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}`
+      );
+      const data = await response.json();
+      displayMovies(data.results);
+    }
 
-    <div class="genre-filter-wrapper">
-        <div class="genre-filter" id="genreFilter"></div>
-    </div>
+    searchInput.addEventListener('input', (e) => {
+      searchMovies(e.target.value);
+    });
 
-    <div class="hero-banner" id="heroBanner">
-        <div class="hero-content">
-            <h1 class="hero-title" id="heroTitle">Loading...</h1>
-            <div class="hero-meta">
-                <span class="hero-match" id="heroMatch">98% Match</span>
-                <span id="heroYear">2024</span>
-                <span class="hero-badge" id="heroRating">PG-13</span>                <span class="hero-badge">HD</span>
-            </div>
-            <p class="hero-description" id="heroDescription">Loading...</p>
-            <div class="hero-buttons">
-                <button class="btn btn-primary" onclick="playFeatured()">▶️ Play</button>
-                <button class="btn btn-secondary" onclick="openFeaturedModal()">ℹ️ More Info</button>
-            </div>
-        </div>
-    </div>    <main id="mainContent">
-        <section class="row-container" id="homeSection">
-            <div class="movie-row-group">
-                <div class="row-header">
-                    <h2 class="row-title">Continue Watching</h2>
-                </div>
-                <div class="row" id="continueWatching"></div>
-            </div>
-
-            <div class="movie-row-group">
-                <div class="row-header">
-                    <h2 class="row-title">Trending Now</h2>
-                </div>
-                <div class="row" id="trendingRow"></div>
-            </div>
-
-            <div class="movie-row-group">
-                <div class="row-header">
-                    <h2 class="row-title">Popular on MFS</h2>
-                </div>
-                <div class="row" id="popularRow"></div>
-            </div>            <div class="movie-row-group">
-                <div class="row-header">
-                    <h2 class="row-title">Top Rated</h2>
-                </div>
-                <div class="row" id="topRatedRow"></div>
-            </div>
-
-            <div class="movie-row-group">
-                <div class="row-header">
-                    <h2 class="row-title">Now Playing in Theaters</h2>                </div>
-                <div class="row" id="nowPlayingRow"></div>
-            </div>
-
-            <div class="movie-row-group">
-                <div class="row-header">
-                    <h2 class="row-title">Coming Soon</h2>
-                </div>
-                <div class="row" id="upcomingRow"></div>
-            </div>
-        </section>
-
-        <section class="row-container hidden" id="moviesSection">
-            <div class="movie-row-group">
-                <div class="row-header">
-                    <h2 class="row-title" id="moviesSectionTitle">All Movies</h2>
-                </div>
-                <div class="row full-width-grid" id="allMoviesGrid">
-                    <!-- Movies will be loaded here dynamically -->
-                    <div class="empty-state">
-                        <div class="empty-state-icon">🎬</div>
-                        <p>Loading movies...</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="row-container hidden" id="myListSection">
-            <div class="movie-row-group">                <div class="row-header">
-                    <h2 class="row-title">My List</h2>
-                </div>
-                <div class="row full-width-grid" id="myListGrid">
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📋</div>
-                        <p>Your list is empty. Add movies to watch later!</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <div class="modal" id="movieModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <div class="modal-content">
-            <button class="close" onclick="closeModal()" aria-label="Close movie details">&times;</button>
-            <div class="modal-header" id="modalHeader"></div>
-            <div class="modal-body">
-                <h2 class="modal-title" id="modalTitle"></h2>
-                <div class="modal-meta">
-                    <span class="modal-match" id="modalMatch">95% Match</span>
-                    <span id="modalYear">2024</span>
-                    <span id="modalRating">PG-13</span>
-                    <span id="modalRuntime">120 min</span>
-                    <span class="badge badge-hd">HD</span>
-                </div>
-                
-                <div class="modal-actions-tabs">
-                    <div class="modal-tabs" role="tablist">
-                        <button class="tab active" role="tab" aria-controls="trailerTab" aria-selected="true" onclick="showTab('trailer', this)">Trailer</button>
-                        <button class="tab" role="tab" aria-controls="playerTab" aria-selected="false" onclick="showTab('player', this)">Watch</button>
-                        <button class="tab" role="tab" aria-controls="detailsTab" aria-selected="false" onclick="showTab('details', this)">Details</button>
-                        <button class="tab" role="tab" aria-controls="castTab" aria-selected="false" onclick="showTab('cast', this)">Cast</button>
-                        <button class="tab" role="tab" aria-controls="similarTab" aria-selected="false" onclick="showTab('similar', this)">More Like This</button>
-                    </div>
-                    <button class="btn btn-secondary add-to-list-btn" id="listBtn" onclick="toggleMyList()" aria-label="Add to My List">
-                        <span id="listIcon">➕</span> My List
-                    </button>
-                </div>                <div id="trailerTab" class="tab-content active" role="tabpanel" aria-labelledby="trailerTabBtn">
-                    <iframe id="trailerPlayer" class="video-player" allowfullscreen loading="lazy" title="Movie Trailer"></iframe>
-                </div>
-
-                <div id="playerTab" class="tab-content" role="tabpanel" aria-labelledby="playerTabBtn">
-                    <div class="player-controls">
-                        <div class="server-selector" id="serverSelector"></div>
-                        <div class="subtitle-control">
-                            <label for="subtitleSelect" class="sr-only">Subtitles:</label>
-                            <select id="subtitleSelect" aria-label="Select subtitle language">
-                                <option value="">Off</option>
-                                <option value="en">English</option>
-                                <option value="es">Spanish</option>
-                                <option value="fr">French</option>
-                                <option value="de">German</option>
-                                <option value="it">Italian</option>
-                                <option value="pt">Portuguese</option>
-                                <option value="ru">Russian</option>
-                                <option value="ja">Japanese</option>
-                                <option value="ko">Korean</option>
-                                <option value="zh">Chinese</option>
-                                <option value="ar">Arabic</option>
-                                <option value="hi">Hindi</option>
-                            </select>
-                        </div>
-                    </div>
-                    <iframe id="videoPlayer" class="video-player" allowfullscreen allow="autoplay; encrypted-media" loading="lazy" title="Movie Player"></iframe>
-                    <div class="ad-disclaimer">
-                        <p><strong>Disclaimer:</strong> Streaming content is provided by third-party embed services. MFS is not responsible for their content or advertising practices. Use at your own discretion.</p>
-                        <p>If you encounter issues, try switching servers or using an ad-blocker.</p>
-                    </div>
-                </div>
-
-                <div id="detailsTab" class="tab-content" role="tabpanel" aria-labelledby="detailsTabBtn">
-                    <p class="modal-description" id="modalDescription"></p>
-                    <div id="modalDetails" class="movie-details-grid"></div>
-                </div>
-
-                <div id="castTab" class="tab-content" role="tabpanel" aria-labelledby="castTabBtn">
-                    <h3 class="section-subtitle">Cast & Crew</h3>
-                    <div class="cast-grid" id="castGrid"></div>
-                </div>
-
-                <div id="similarTab" class="tab-content" role="tabpanel" aria-labelledby="similarTabBtn">
-                    <div class="similar-section">
-                        <h3 class="section-subtitle">More Like This</h3>
-                        <div class="similar-grid" id="similarGrid"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="info-modal" id="infoModal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle">
-        <div class="info-modal-content">
-            <h2 class="info-modal-title" id="infoModalTitle">Information</h2>
-            <div class="info-modal-text" id="infoModalText"></div>
-            <button class="info-close" onclick="closeInfoModal()">Close</button>
-        </div>
-    </div>
-
-    <footer>
-        <div class="footer-links">
-            <a href="#" onclick="showDisclaimer()">Disclaimer</a>
-            <a href="#" onclick="showAbout()">About</a>
-            <a href="#" onclick="showContact()">Contact</a>
-            <a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer">Powered by TMDb</a>
-        </div>
-        <div class="footer-bottom">
-            &copy; 2025 MFS - Modern Fact Stories. All rights reserved.
-        </div>    </footer>
-
-    <!-- Link to your external JavaScript file -->
-    <script src="script.js"></script>
+    // Initial load
+    fetchTrending();
+  </script>
 </body>
 </html>
