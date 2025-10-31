@@ -1,63 +1,70 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Movie Website Home</title>
-  <link rel="stylesheet" href="home.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nitflex - Movie Streaming</title>
+<link rel="stylesheet" href="css/home.css" />
 </head>
 <body>
-  <header>
-    <h1>Trending Movies</h1>
+<header>
+  <div class="logo">Nitflex</div>
+  <nav>
+    <ul>
+      <li><a href="#" class="active">Home</a></li>
+      <li><a href="#">Movies</a></li>
+      <li><a href="#">Series</a></li>
+      <li><a href="#">My List</a></li>
+    </ul>
     <input type="text" id="search" placeholder="Search movies..." />
-  </header>
-  <main id="movie-list" class="movie-grid"></main>
+  </nav>
+</header>
 
-  <script>
-    const apiKey = 'f27081ffd1178848ff5106836b2adc93'; // Your TMDb API key
-    const movieList = document.getElementById('movie-list');
-    const searchInput = document.getElementById('search');
+<main>
+  <section class="movie-section">
+    <h2>Trending Now</h2>
+    <div id="movie-list" class="movie-grid"></div>
+  </section>
+</main>
 
-    async function fetchTrending() {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}`
-      );
-      const data = await response.json();
-      displayMovies(data.results);
-    }
+<script>
+  const apiKey = 'f27081ffd1178848ff5106836b2adc93';
+  const movieList = document.getElementById('movie-list');
+  const searchInput = document.getElementById('search');
 
-    function displayMovies(movies) {
-      movieList.innerHTML = movies
-        .map(
-          (movie) => `
-        <div class="movie-item">
-          <img src="https://image.tmdb.org/t/p/w300${movie.poster_path}" alt="${movie.title}" />
-          <h3>${movie.title}</h3>
-          <p>Rating: ${movie.vote_average}</p>
+  async function fetchTrending() {
+    const res = await fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}`);
+    const data = await res.json();
+    displayMovies(data.results);
+  }
+
+  function displayMovies(movies) {
+    movieList.innerHTML = movies
+      .map(movie => `
+        <div class="movie-item" title="${movie.title}">
+          <img src="https://image.tmdb.org/t/p/w400${movie.poster_path}" alt="${movie.title}" />
+          <div class="movie-info">
+            <h3>${movie.title}</h3>
+            <span class="rating">${movie.vote_average.toFixed(1)} ★</span>
+          </div>
         </div>
-      `
-        )
-        .join('');
+      `).join('');
+  }
+
+  async function searchMovies(query) {
+    if (!query.trim()) {
+      fetchTrending();
+      return;
     }
+    const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}`);
+    const data = await res.json();
+    displayMovies(data.results);
+  }
 
-    async function searchMovies(query) {
-      if (!query) {
-        fetchTrending();
-        return;
-      }
-      const response = await fetch(
-        `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}`
-      );
-      const data = await response.json();
-      displayMovies(data.results);
-    }
+  searchInput.addEventListener('input', e => searchMovies(e.target.value));
 
-    searchInput.addEventListener('input', (e) => {
-      searchMovies(e.target.value);
-    });
-
-    // Initial load
-    fetchTrending();
-  </script>
+  fetchTrending();
+</script>
 </body>
 </html>
