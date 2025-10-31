@@ -1,70 +1,81 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Nitflex - Movie Streaming</title>
-<link rel="stylesheet" href="css/home.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>MyMovie Stream</title>
+  <link rel="stylesheet" href="home.css">
 </head>
 <body>
-<header>
-  <div class="logo">Nitflex</div>
-  <nav>
-    <ul>
-      <li><a href="#" class="active">Home</a></li>
-      <li><a href="#">Movies</a></li>
-      <li><a href="#">Series</a></li>
-      <li><a href="#">My List</a></li>
-    </ul>
-    <input type="text" id="search" placeholder="Search movies..." />
-  </nav>
-</header>
+  <header>
+    <div class="hero">
+      <h1>Welcome to MyMovie Stream</h1>
+      <p>Stream movies instantly, free and worldwide.</p>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Movies</a></li>
+        <li><a href="#">Live TV</a></li>
+        <li><a href="#">Music</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<main>
-  <section class="movie-section">
-    <h2>Trending Now</h2>
-    <div id="movie-list" class="movie-grid"></div>
-  </section>
-</main>
+  <main>
+    <section class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search for movies (IMDb ID or Title)">
+      <button onclick="playMovie()">Play</button>
+    </section>
 
-<script>
-  const apiKey = 'f27081ffd1178848ff5106836b2adc93';
-  const movieList = document.getElementById('movie-list');
-  const searchInput = document.getElementById('search');
+    <section class="player-section">
+      <div id="playerContainer">
+        <!-- Movie player will be inserted here -->
+      </div>
+    </section>
 
-  async function fetchTrending() {
-    const res = await fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}`);
-    const data = await res.json();
-    displayMovies(data.results);
-  }
+    <section class="features">
+      <h2>Why Choose MyMovie Stream?</h2>
+      <ul>
+        <li>Global free streaming</li>
+        <li>No subscription required</li>
+        <li>Sync watching across devices</li>
+        <li>Curated movie recommendations</li>
+        <li>Multiple fast streaming servers</li>
+      </ul>
+    </section>
+  </main>
 
-  function displayMovies(movies) {
-    movieList.innerHTML = movies
-      .map(movie => `
-        <div class="movie-item" title="${movie.title}">
-          <img src="https://image.tmdb.org/t/p/w400${movie.poster_path}" alt="${movie.title}" />
-          <div class="movie-info">
-            <h3>${movie.title}</h3>
-            <span class="rating">${movie.vote_average.toFixed(1)} ★</span>
-          </div>
-        </div>
-      `).join('');
-  }
+  <footer>
+    <p>&copy; 2025 MyMovie Stream. Powered by vidsrc.to, embed.su, moviesapi.to, autoembed.cc.</p>
+  </footer>
 
-  async function searchMovies(query) {
-    if (!query.trim()) {
-      fetchTrending();
-      return;
+  <script>
+    const apiList = [
+      {name: "vidsrc.to", url: "https://vidsrc.to/embed/movie/"},
+      {name: "embed.su", url: "https://embed.su/movie/"},
+      {name: "moviesapi.to", url: "https://moviesapi.to/movie/"},
+      {name: "autoembed.cc", url: "https://autoembed.cc/movie/"}
+    ];
+    const apiKey = "f27081ffd1178848ff5106836b2adc93";
+
+    function playMovie() {
+      const input = document.getElementById('searchInput').value.trim();
+      let embedUrl = "";
+      // Assumes IMDb ID input (ttxxxxxxx)
+      if (input.startsWith('tt')) {
+        // Vidsrc.to as default, fallback order
+        embedUrl = ${apiList[0].url}${input}?api_key=${apiKey};
+      } else {
+        // If not IMDb ID, try embed.su or fallback APIs
+        embedUrl = ${apiList[1].url}${encodeURIComponent(input)}?api_key=${apiKey};
+      }
+      // Render the iframe
+      document.getElementById('playerContainer').innerHTML =
+        `<iframe src="${embedUrl}"
+          width="100%" height="500" frameborder="0"
+          allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
     }
-    const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}`);
-    const data = await res.json();
-    displayMovies(data.results);
-  }
-
-  searchInput.addEventListener('input', e => searchMovies(e.target.value));
-
-  fetchTrending();
-</script>
+  </script>
 </body>
 </html>
